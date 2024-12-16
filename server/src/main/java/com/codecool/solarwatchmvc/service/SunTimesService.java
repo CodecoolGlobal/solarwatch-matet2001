@@ -44,7 +44,6 @@ public class SunTimesService {
             return sunTimesRepository.save(sunTimes);
         }).orElseThrow(() -> new EntityNotFoundException("SunTimes not found with id: " + id));
     }
-
     public void deleteSunTimes(long id) {
         if (sunTimesRepository.existsById(id)) {
             sunTimesRepository.deleteById(id);

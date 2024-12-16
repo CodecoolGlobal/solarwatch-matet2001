@@ -1,4 +1,4 @@
-package com.codecool.solarwatchmvc.unit.service;
+package com.codecool.solarwatchmvc.service.service;
 
 import com.codecool.solarwatchmvc.model.City;
 import com.codecool.solarwatchmvc.model.SunTimeResponse;
@@ -35,12 +35,37 @@ class SunTimeServiceTest {
     }
 
     @Test
+    void getCitySunTimesByDateConvertedToHungarianTimeZone_returnsCorrectData() {
+        //Arrange
+        SunTimes citySunTimes = new SunTimes("5:13:19 AM", "3:42:52 PM", LocalDate.now());
+        SunTimeResponse sunTimeResponse = new SunTimeResponse(citySunTimes,"OK");
+        City mockCity = new City("Gödöllő" ,47.4979f, 19.0402f, "HU");
+
+        LocalDate date = LocalDate.now();
+        String formattedDate = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String url = String.format("https://api.sunrise-sunset.org/json?lat=%s&lng=%s&date=%s", mockCity.getLat(), mockCity.getLon(), formattedDate);
+
+        //Mock
+        when(cityRepository.save(mockCity)).thenReturn(mockCity);
+        when(restTemplate.getForObject(url, SunTimeResponse.class)).thenReturn(sunTimeResponse);
+
+        //Act
+        SunTimes result = sunTimeService.getCitySunTimesByDateConvertedToHungarianTimeZone(mockCity, date);
+
+        //Assert
+        assertNotNull(result);
+        assertEquals(result.getSunrise(), "6:13:19 AM");
+        assertEquals(result.getSunset(), "4:42:52 PM");
+
+        verify(restTemplate, times(1)).getForObject(url, SunTimeResponse.class);
+    }
+
+    @Test
     void fetchCitySunTimesByDate_returnsSunTimes() {
         //Arrange
         SunTimes citySunTimes = new SunTimes("5:13:19 AM", "3:42:52 PM", LocalDate.now());
         SunTimeResponse sunTimeResponse = new SunTimeResponse(citySunTimes,"OK");
         City mockCity = new City("Gödöllő" ,47.4979f, 19.0402f, "HU");
-        
 
         LocalDate date = LocalDate.now();
         String formattedDate = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));

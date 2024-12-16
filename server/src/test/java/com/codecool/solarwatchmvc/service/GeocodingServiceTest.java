@@ -1,4 +1,4 @@
-package com.codecool.solarwatchmvc.unit.service;
+package com.codecool.solarwatchmvc.service.service;
 
 import com.codecool.solarwatchmvc.model.City;
 import com.codecool.solarwatchmvc.repository.CityRepository;

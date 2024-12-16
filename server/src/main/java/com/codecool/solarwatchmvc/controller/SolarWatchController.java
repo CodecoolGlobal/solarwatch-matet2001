@@ -1,20 +1,15 @@
 package com.codecool.solarwatchmvc.controller;
 
 import com.codecool.solarwatchmvc.DTO.CityDTO;
-import com.codecool.solarwatchmvc.DTO.SolarWatchRequestDTO;
 import com.codecool.solarwatchmvc.DTO.SolarWatchResponseDTO;
 import com.codecool.solarwatchmvc.DTO.SunTimesDTO;
 import com.codecool.solarwatchmvc.model.City;
 import com.codecool.solarwatchmvc.model.SunTimes;
-import com.codecool.solarwatchmvc.security.UserDetailsServiceImpl;
 import com.codecool.solarwatchmvc.service.GeocodingService;
 import com.codecool.solarwatchmvc.service.SunTimeService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cglib.core.Local;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
