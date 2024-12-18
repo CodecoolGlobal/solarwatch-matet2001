@@ -1,0 +1,18 @@
+package com.codecool.solarwatch;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class SolarWatchApplicationTests {
+
+    @Test
+    void contextLoads() {
+        // Test to ensure that the application context loads successfully
+    }
+
+    @Test
+    void mainMethodRuns() {
+        SolarWatchApplication.main(new String[] {});
+    }
+}
