@@ -16,7 +16,7 @@ export default {
         dark: {
           bg: "#1e2838", // Primary Background
           secondaryBg: "#1F2937", // Secondary Background
-          text: "#00ffa2", // Default Text
+          text: "#ffffff", // Default Text
           mutedText: "#94D1C2", // Muted Text
           border: "#E5E7EB", // Borders/Dividers
         },

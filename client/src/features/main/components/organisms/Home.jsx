@@ -32,7 +32,7 @@ function Home() {
     }
 
     return (
-        <div className="flex min-h-full flex-col justify-center items-center px-6 py-12 lg:px-8">
+        <div className="flex min-h-full flex-col justify-center items-center px-6 py-12 lg:px-8 text-black">
             <div className="bg-amber-300 max-w-3xl p-10 rounded-md shadow-md">
                 <h1 className="text-3xl font-bold mt-1 mb-5">Enter City and Date</h1>
                 <form action="#" className="space-y-7" onSubmit={handleSubmit}>

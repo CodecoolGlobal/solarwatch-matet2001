@@ -9,14 +9,12 @@ import SolarWatchLogo from "../atoms/SolarWatchLogo.jsx";
 import SolarWatchButton from "../atoms/SolarWatchButton.jsx";
 import BiggerOnHover from "../atoms/BiggerOnHover.jsx";
 import {useAuth} from "../../../auth/AuthContext.jsx";
-
-
-function classNames(...classes) {
-    return classes.filter(Boolean).join(" ");
-}
+import {useTheme} from "../../../ThemeContext.jsx";
+import Switch from "../atoms/Switch.jsx";
 
 export default function Navbar() {
     const { logout, user, isLoggedIn } = useAuth();
+    const { darkMode, toggleDarkMode } = useTheme();
 
     return (
         <Disclosure as="nav" className="">
@@ -50,7 +48,8 @@ export default function Navbar() {
                             </Link>
                         </div>
                     </div>
-                    <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                    <div className="absolute inset-y-0 right-0 flex gap-x-6 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                        <Switch isChecked={darkMode} toggle={toggleDarkMode} />
                         {isLoggedIn() ? (
                             <div className="flex gap-x-5 items-center">
                                 <h2>Hello {user?.username}</h2>

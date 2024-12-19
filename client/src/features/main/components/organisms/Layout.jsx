@@ -3,9 +3,11 @@ import Navbar from "../molecules/Navbar.jsx";
 
 function Layout() {
     return (
-        <div className="h-full bg-white">
+        <div>
             <Navbar />
-            <Outlet />
+            <div className="w-8/12 mx-auto">
+                <Outlet />
+            </div>
         </div>
     )
 }
