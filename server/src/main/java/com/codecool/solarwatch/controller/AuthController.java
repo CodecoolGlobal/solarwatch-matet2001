@@ -82,6 +82,8 @@ public class AuthController {
 
     @PostMapping("login")
     public AuthResponseDTO login(@RequestBody LoginDTO loginDTO) {
+        logger.info(String.valueOf(loginDTO));
+
         Authentication authentication =
                 authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(

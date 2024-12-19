@@ -9,20 +9,13 @@ export const useLogin = () => {
         setError("");
         setSuccess("");
         try {
-            const response = await axios.post(`/api/auth/login`, {
-                username,
-                password,
+            const response = await axios.post("/api/auth/login", {
+                username: username,
+                password: password,
             });
+            setSuccess(response?.data?.message);
 
-            const { jwtToken, userName, roles, message } = response.data;
-
-            setSuccess(message);
-
-            return {
-                jwtToken,
-                userName,
-                roles,
-            };
+            return response.data;
         } catch (err) {
             setError(
                 err.response?.data?.message ||

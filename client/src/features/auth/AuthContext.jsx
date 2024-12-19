@@ -30,9 +30,9 @@ export const AuthProvider = ({ children }) => {
 
     const saveUser = (userData) => {
         setUser(userData);
-        localStorage.setItem("username", userData?.userName);
-        localStorage.setItem("jwtToken", userData?.jwtToken);
-        localStorage.setItem("roles", JSON.stringify(userData?.roles));
+        userData?.username && localStorage.setItem("username", userData.username);
+        userData?.jwtToken && localStorage.setItem("jwtToken", userData.jwtToken);
+        userData?.roles && localStorage.setItem("roles", JSON.stringify(userData.roles));
     };
 
     const isLoggedIn = () => {
