@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/solar-watch/**").permitAll()
-                        .requestMatchers("/greeting").permitAll()
+                        .requestMatchers("/error").permitAll()
                         .requestMatchers("/api/city/admin/**", "/api/sun_times/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 );

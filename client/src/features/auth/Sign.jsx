@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axiosInstance from "../../../AxiosInstance.jsx";
 
 function Sign() {
     const [username, setUsername] = useState('');
@@ -14,11 +15,7 @@ function Sign() {
         const body = {username, password}
 
         try {
-            const response = await fetch(`/api/auth/${mode}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body),
-            });
+            const response = await axiosInstance.post(`/auth/${mode}`, body);
 
             if (!response.ok) {
                 setError('Something went wrong');

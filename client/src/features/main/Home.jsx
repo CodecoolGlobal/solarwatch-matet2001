@@ -1,5 +1,6 @@
 import {useState} from "react";
 import SolarCard from "./components/SolarCard.jsx";
+import axiosInstance from "../../../AxiosInstance.jsx";
 
 function Home() {
     const [error, setError] = useState('');
@@ -11,27 +12,25 @@ function Home() {
         try {
             const formData = new FormData(e.target);
             const data = Object.fromEntries(formData.entries());
-            const jwtToken = localStorage.getItem("jwtToken");
 
-            const request = await fetch('/api/solar-watch', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${jwtToken}`, // Add the Bearer token to the Authorization header
-                },
-                body: JSON.stringify(data)
-            })
+            // Send a GET request with query parameters
+            const response = await axiosInstance.get('/solar-watch', {
+                params: {
+                    cityName: data.cityName,
+                    date: data.date || undefined // Exclude 'date' if it's empty
+                }
+            });
 
-            const response = await request.json();
-            setSolarData(response);
+            // Response is already parsed as JSON with Axios
+            setSolarData(response.data);
 
-            console.log(response);
+            console.log(response.data);
         } catch (err) {
-            setError(`Authentication failed. ${err}`);
-
+            setError(`Failed to fetch solar data. ${err.response?.data?.message || err.message}`);
             console.error(err);
         }
     }
+
     return (
         <div className="flex min-h-full flex-col justify-center items-center px-6 py-12 lg:px-8">
             <div className="bg-amber-300 max-w-3xl p-10 rounded-md shadow-md">
