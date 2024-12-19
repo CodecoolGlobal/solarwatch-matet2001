@@ -3,7 +3,7 @@ package com.codecool.solarwatch.controller;
 import com.codecool.solarwatch.DTO.AuthResponseDTO;
 import com.codecool.solarwatch.DTO.LoginDTO;
 import com.codecool.solarwatch.DTO.RegisterDTO;
-import com.codecool.solarwatch.model.Role;
+import com.codecool.solarwatch.DTO.RegisterResponseDTO;
 import com.codecool.solarwatch.model.UserEntity;
 import com.codecool.solarwatch.repository.RoleRepository;
 import com.codecool.solarwatch.repository.UserRepository;
@@ -16,14 +16,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -61,9 +63,9 @@ public class AuthController {
         user.setUsername(registerDTO.username());
         user.setPassword(passwordEncoder.encode(registerDTO.password()));
 
-        Optional<Role> roleFromRepo = roleRepository.findByName("USER");
-        Role role = roleFromRepo.orElseGet(() -> roleRepository.save(new Role("USER")));
-        user.setRoles(Set.of(role));
+//        Optional<Role> roleFromRepo = roleRepository.findByName("USER");
+//        Role role = roleFromRepo.orElseGet(() -> roleRepository.save(new Role("USER")));
+        user.setRoles(Set.of(roleRepository.findByName("ROLE_USER").get()));
 
         userRepository.save(user);
 
@@ -75,12 +77,11 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return new ResponseEntity<>(new AuthResponseDTO("User registration success"), HttpStatus.OK);
+        return new ResponseEntity<>(new RegisterResponseDTO("User registration success"), HttpStatus.OK);
     }
 
     @PostMapping("login")
-    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO loginDTO) {
-        logger.info(String.valueOf(loginDTO));
+    public AuthResponseDTO login(@RequestBody LoginDTO loginDTO) {
         Authentication authentication =
                 authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(
@@ -89,6 +90,10 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtUtils.generateJwtToken(authentication);
-        return new ResponseEntity<>(new AuthResponseDTO(token, "User login successfully"), HttpStatus.OK);
+
+        User userDetails = (User) authentication.getPrincipal();
+        List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
+
+        return new AuthResponseDTO(userDetails.getUsername(), token, roles, "Registration was successful");
     }
 }
