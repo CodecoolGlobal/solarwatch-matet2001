@@ -13,14 +13,11 @@ services:
       dockerfile: Dockerfile
     container_name: app
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/solar_watch
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=postgres
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - DB_PASSWORD=postgres
+      - DB_USERNAME=postgres
+      - DB_URL=jdbc:postgresql://db:5432/solar_watch
       - codecool.app.jwtSecret=======================CodeCool=Spring===========================
       - codecool.app.jwtExpirationMs=86400000
-      - spring.jpa.defer-datasource-initialization=true
-      - spring.sql.init.mode=always
 
   db:
     image: 'postgres:13.1-alpine'
