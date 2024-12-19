@@ -1,6 +1,6 @@
 import {useState} from "react";
-import SolarCard from "./components/SolarCard.jsx";
-import axiosInstance from "../../../AxiosInstance.jsx";
+import SolarCard from "../molecules/SolarCard.jsx";
+import axiosInstance from "../../../../../AxiosInstance.jsx";
 
 function Home() {
     const [error, setError] = useState('');

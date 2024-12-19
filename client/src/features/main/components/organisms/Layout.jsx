@@ -1,10 +1,10 @@
 import {Outlet} from "react-router";
-import Header from "./components/Header.jsx";
+import Navbar from "../molecules/Navbar.jsx";
 
 function Layout() {
     return (
         <div className="h-full bg-white">
-            <Header />
+            <Navbar />
             <Outlet />
         </div>
     )
