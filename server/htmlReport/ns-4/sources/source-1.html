@@ -1,0 +1,222 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AuthController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.codecool.solarwatch.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: AuthController (com.codecool.solarwatch.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AuthController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/34)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.codecool.solarwatch.controller;
+&nbsp;
+&nbsp;import com.codecool.solarwatch.DTO.AuthResponseDTO;
+&nbsp;import com.codecool.solarwatch.DTO.LoginDTO;
+&nbsp;import com.codecool.solarwatch.DTO.RegisterDTO;
+&nbsp;import com.codecool.solarwatch.DTO.RegisterResponseDTO;
+&nbsp;import com.codecool.solarwatch.model.SolarUser;
+&nbsp;import com.codecool.solarwatch.repository.RoleRepository;
+&nbsp;import com.codecool.solarwatch.repository.UserRepository;
+&nbsp;import com.codecool.solarwatch.security.JWTUtils;
+&nbsp;import com.codecool.solarwatch.service.EmailService;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.security.authentication.AuthenticationManager;
+&nbsp;import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+&nbsp;import org.springframework.security.core.Authentication;
+&nbsp;import org.springframework.security.core.GrantedAuthority;
+&nbsp;import org.springframework.security.core.context.SecurityContextHolder;
+&nbsp;import org.springframework.security.core.userdetails.User;
+&nbsp;import org.springframework.security.crypto.password.PasswordEncoder;
+&nbsp;import org.springframework.web.bind.annotation.PostMapping;
+&nbsp;import org.springframework.web.bind.annotation.RequestBody;
+&nbsp;import org.springframework.web.bind.annotation.RequestMapping;
+&nbsp;import org.springframework.web.bind.annotation.RestController;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;@RestController
+&nbsp;@RequestMapping(&quot;/api/auth&quot;)
+&nbsp;public class AuthController {
+&nbsp;    private final AuthenticationManager authenticationManager;
+&nbsp;    private final UserRepository userRepository;
+&nbsp;    private final RoleRepository roleRepository;
+&nbsp;    private final PasswordEncoder passwordEncoder;
+&nbsp;    private final JWTUtils jwtUtils;
+&nbsp;    private final EmailService emailService;
+&nbsp;
+<b class="nc">&nbsp;    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    public AuthController(AuthenticationManager authenticationManager,
+&nbsp;                          UserRepository userRepository,
+&nbsp;                          RoleRepository roleRepository,
+<b class="nc">&nbsp;                          PasswordEncoder passwordEncoder, JWTUtils jwtUtils, EmailService emailService) {</b>
+&nbsp;
+<b class="nc">&nbsp;        this.authenticationManager = authenticationManager;</b>
+<b class="nc">&nbsp;        this.userRepository = userRepository;</b>
+<b class="nc">&nbsp;        this.roleRepository = roleRepository;</b>
+<b class="nc">&nbsp;        this.passwordEncoder = passwordEncoder;</b>
+<b class="nc">&nbsp;        this.jwtUtils = jwtUtils;</b>
+<b class="nc">&nbsp;        this.emailService = emailService;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PostMapping(&quot;register&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; register(@RequestBody RegisterDTO registerDTO) {
+<b class="nc">&nbsp;        logger.info(String.valueOf(registerDTO));</b>
+<b class="nc">&nbsp;        if (userRepository.existsByUsername(registerDTO.username())) {</b>
+<b class="nc">&nbsp;            return new ResponseEntity&lt;&gt;(&quot;Username is taken!&quot;, HttpStatus.BAD_REQUEST);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        UserEntity user = new UserEntity();</b>
+<b class="nc">&nbsp;        user.setUsername(registerDTO.username());</b>
+<b class="nc">&nbsp;        user.setPassword(passwordEncoder.encode(registerDTO.password()));</b>
+&nbsp;
+<b class="nc">&nbsp;        user.setRoles(Set.of(roleRepository.findByName(&quot;ROLE_USER&quot;).get()));</b>
+&nbsp;
+<b class="nc">&nbsp;        userRepository.save(user);</b>
+&nbsp;
+<b class="nc">&nbsp;        Authentication authentication =</b>
+<b class="nc">&nbsp;                authenticationManager.authenticate(</b>
+&nbsp;                        new UsernamePasswordAuthenticationToken(
+<b class="nc">&nbsp;                                registerDTO.username(),</b>
+<b class="nc">&nbsp;                                registerDTO.password()));</b>
+&nbsp;
+<b class="nc">&nbsp;        SecurityContextHolder.getContext().setAuthentication(authentication);</b>
+&nbsp;
+<b class="nc">&nbsp;        emailService.sendSimpleEmail(registerDTO.email(), &quot;Registration&quot;, &quot;Registration was successful!&quot;);</b>
+<b class="nc">&nbsp;        logger.info(&quot;Email was send to{}&quot;, registerDTO.email());</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(new RegisterResponseDTO(&quot;User registration success&quot;), HttpStatus.OK);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PostMapping(&quot;login&quot;)
+&nbsp;    public AuthResponseDTO login(@RequestBody LoginDTO loginDTO) {
+<b class="nc">&nbsp;        logger.info(String.valueOf(loginDTO));</b>
+&nbsp;
+<b class="nc">&nbsp;        Authentication authentication =</b>
+<b class="nc">&nbsp;                authenticationManager.authenticate(</b>
+&nbsp;                        new UsernamePasswordAuthenticationToken(
+<b class="nc">&nbsp;                                loginDTO.username(),</b>
+<b class="nc">&nbsp;                                loginDTO.password()));</b>
+&nbsp;
+<b class="nc">&nbsp;        SecurityContextHolder.getContext().setAuthentication(authentication);</b>
+<b class="nc">&nbsp;        String token = jwtUtils.generateJwtToken(authentication);</b>
+&nbsp;
+<b class="nc">&nbsp;        User userDetails = (User) authentication.getPrincipal();</b>
+<b class="nc">&nbsp;        List&lt;String&gt; roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();</b>
+&nbsp;
+<b class="nc">&nbsp;        return new AuthResponseDTO(userDetails.getUsername(), token, roles, &quot;Registration was successful&quot;);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-01-09 12:12</div>
+</div>
+</body>
+</html>

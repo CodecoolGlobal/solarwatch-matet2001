@@ -1,7 +1,7 @@
 package com.codecool.solarwatch.security;
 
 import com.codecool.solarwatch.model.Role;
-import com.codecool.solarwatch.model.UserEntity;
+import com.codecool.solarwatch.model.SolarUser;
 import com.codecool.solarwatch.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity user = userRepository.findByUsername(username)
+        SolarUser user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
 
         User newUser = new User(

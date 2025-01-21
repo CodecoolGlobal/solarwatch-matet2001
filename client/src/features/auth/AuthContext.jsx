@@ -8,37 +8,34 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        getUser();
+        const storedUser = retrieveStoredUser();
+        if (storedUser) setUser(storedUser);
     }, []);
 
-    const getUser = () => {
-        if (user) {
-            return user;
-        }
-
+    const retrieveStoredUser = () => {
         const username = localStorage.getItem("username");
         const jwtToken = localStorage.getItem("jwtToken");
-        const roles = JSON.parse(localStorage.getItem("roles"));
+        const roles = JSON.parse(localStorage.getItem("roles") || "[]");
 
-        const storageUser = { username, jwtToken, roles };
-        if (storageUser) {
-            setUser(storageUser);
+        if (username && jwtToken) {
+            return { username, jwtToken, roles };
         }
-
-        return storageUser;
+        return null;
     };
 
     const saveUser = (userData) => {
-        setUser(userData);
-        userData?.username && localStorage.setItem("username", userData.username);
-        userData?.jwtToken && localStorage.setItem("jwtToken", userData.jwtToken);
-        userData?.roles && localStorage.setItem("roles", JSON.stringify(userData.roles));
+        if (!userData) return;
+
+        const { username, jwtToken, roles } = userData;
+
+        setUser({ username, jwtToken, roles });
+
+        if (username) localStorage.setItem("username", username);
+        if (jwtToken) localStorage.setItem("jwtToken", jwtToken);
+        if (roles) localStorage.setItem("roles", JSON.stringify(roles));
     };
 
-    const isLoggedIn = () => {
-        const user = localStorage.getItem("username");
-        return !!user;
-    };
+    const isLoggedIn = () => !!localStorage.getItem("username");
 
     const logout = () => {
         setUser(null);
@@ -49,7 +46,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider
-            value={{ user, saveUser, logout, isLoggedIn, getUser }}
+            value={{ user, saveUser, logout, isLoggedIn, retrieveStoredUser }}
         >
             {children}
         </AuthContext.Provider>

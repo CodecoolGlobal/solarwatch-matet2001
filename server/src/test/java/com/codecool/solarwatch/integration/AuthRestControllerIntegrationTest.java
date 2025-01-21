@@ -45,6 +45,7 @@ public class AuthRestControllerIntegrationTest {
 
     String credentials = """
             {
+                "email": "matet2001@gmail.com",
                 "username": "testuser",
                 "password": "password123"
             }
@@ -73,7 +74,7 @@ public class AuthRestControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(credentials))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.token").exists())
+                .andExpect(jsonPath("$.jwtToken").exists())
                 .andExpect(jsonPath("$.message").value("User login successfully"));
     }
 }

@@ -4,6 +4,7 @@ import BiggerOnHover from "../main/components/atoms/BiggerOnHover.jsx";
 import { useRegister } from "./hooks/useRegister.jsx";
 import SolarWatchLogo from "../main/components/atoms/SolarWatchLogo.jsx";
 import SolarWatchButton from "../main/components/atoms/SolarWatchButton.jsx";
+import SolarInput from "../main/components/atoms/SolarInput.jsx";
 
 function Register() {
     const [email, setEmail] = useState("");
@@ -41,67 +42,37 @@ function Register() {
                         method="POST"
                         onSubmit={handleSubmit}
                     >
-                        <div>
-                            <div className="flex items-start">
-                                <label htmlFor="email" className="block text-sm/6 font-medium">
-                                    Email
-                                </label>
-                            </div>
-                            <div className="mt-2">
-                                <input
-                                    id="email"
-                                    name="email"
-                                    type="text"
-                                    autoComplete="email"
-                                    required
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
-                                />
-                            </div>
-                        </div>
-                        <div>
-                            <div className="flex items-start">
-                                <label
-                                    htmlFor="username"
-                                    className="block text-sm/6 font-medium"
-                                >
-                                    Name
-                                </label>
-                            </div>
-                            <div className="mt-2">
-                                <input
-                                    id="username"
-                                    name="username"
-                                    type="text"
-                                    autoComplete="email"
-                                    required
-                                    onChange={(e) => setUsername(e.target.value)}
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
-                                />
-                            </div>
-                        </div>
+                        <SolarInput
+                            label="Email"
+                            id="email"
+                            name="email"
+                            type="text"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            autoComplete="email"
+                            required
+                        />
 
-                        <div>
-                            <div className="flex items-start">
-                                <label
-                                    htmlFor="password"
-                                    className="block text-sm/6 font-medium"
-                                >
-                                    Password
-                                </label>
-                            </div>
-                            <div className="mt-2">
-                                <input
-                                    id="password"
-                                    name="password"
-                                    type="password"
-                                    autoComplete="current-password"
-                                    required
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
-                                />
-                            </div>
-                        </div>
+                        <SolarInput
+                            label="Username"
+                            id="username"
+                            name="username"
+                            type="text"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            required
+                        />
+
+                        <SolarInput
+                            label="Password"
+                            id="password"
+                            name="password"
+                            type="password"
+                            autoComplete="current-password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
 
                         <div>
                             <SolarWatchButton
@@ -116,7 +87,7 @@ function Register() {
                     {error && <p className="text-red-500">{error}</p>}
                     {success && <p className="text-green-500">{success}</p>}
 
-                    <div className="mt-10 text-center text-lg text-light-mutedText dark:text-dark-mutedText">
+                    <div className="mt-10 text-center text-lg">
                         Already have an account?
                         <BiggerOnHover>
                             <Link

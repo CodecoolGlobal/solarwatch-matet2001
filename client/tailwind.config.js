@@ -7,7 +7,7 @@ export default {
     extend: {
       colors: {
         light: {
-          bg: "#f1f2f4", // Primary Background
+          bg: "#fffee7", // Primary Background
           secondaryBg: "#008343", // Secondary Background
           text: "#000000", // Default Text
           mutedText: "#2a3032", // Muted Text

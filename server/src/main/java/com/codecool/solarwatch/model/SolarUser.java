@@ -10,7 +10,7 @@ import java.util.Set;
 @Table(name = "solar_user")
 @Data
 @NoArgsConstructor
-public class UserEntity {
+public class SolarUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,6 +18,6 @@ public class UserEntity {
     private String username;
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 }

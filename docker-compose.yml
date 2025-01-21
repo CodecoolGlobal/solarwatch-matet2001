@@ -1,44 +1,47 @@
 version: '3.9'
 
 services:
+  db:
+    image: 'postgres:13.1-alpine'
+    container_name: db
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_DB=solar_watch
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 20s
+      timeout: 10s
+      retries: 10
+
   app:
     depends_on:
       db:
         condition: service_healthy
-    image: solar-watch-app:latest
-    ports:
-      - "8080:8080"
+    image: talee-app:latest
     build:
       context: ./server
       dockerfile: Dockerfile
     container_name: app
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/solar_watch
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=postgres
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
-      - codecool.app.jwtSecret=======================CodeCool=Spring===========================
-      - codecool.app.jwtExpirationMs=86400000
-
-  db:
-    image: 'postgres:13.1-alpine'
-    container_name: db
-    environment:
-      - POSTGRES_DB=solar_watch
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+      - codecool.app.jwtSecret=${jwtSecret}
+      - codecool.app.jwtExpirationMs=${jwtExpirationMs}
     ports:
-      - "5433:5432"
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      - "8080:8080" # Add this if your app exposes a port
 
   frontend:
-    image: solar-watch-frontend:latest
+    depends_on:
+      - app
+    image: talee-frontend:latest
     ports:
-      - "5173:5173"
+      - "80:80"
     build:
       context: ./client
       dockerfile: Dockerfile

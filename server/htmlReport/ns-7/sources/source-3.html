@@ -1,0 +1,160 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > GeocodingService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.codecool.solarwatch.service</a>
+</div>
+
+<h1>Coverage Summary for Class: GeocodingService (com.codecool.solarwatch.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GeocodingService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (12/12)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.codecool.solarwatch.service;
+&nbsp;
+&nbsp;import com.codecool.solarwatch.model.City;
+&nbsp;import com.codecool.solarwatch.repository.CityRepository;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import org.springframework.web.client.RestTemplate;
+&nbsp;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;@Service
+&nbsp;public class GeocodingService {
+&nbsp;    private static final String API_KEY = &quot;c828fd578e8452122384274a198de8c3&quot;;
+<b class="fc">&nbsp;    private static final Logger logger = LoggerFactory.getLogger(GeocodingService.class);</b>
+&nbsp;
+&nbsp;    private final RestTemplate restTemplate;
+&nbsp;    private final CityRepository cityRepository;
+&nbsp;
+&nbsp;    @Autowired
+<b class="fc">&nbsp;    public GeocodingService(RestTemplate restTemplate, CityRepository cityRepository) {</b>
+<b class="fc">&nbsp;        this.restTemplate = restTemplate;</b>
+<b class="fc">&nbsp;        this.cityRepository = cityRepository;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public City getCityByName(String cityName) {
+<b class="fc">&nbsp;        Optional&lt;City&gt; cityFromDatabase = cityRepository.findByName(cityName);</b>
+<b class="fc">&nbsp;        return cityFromDatabase.orElseGet(() -&gt; fetchCityByName(cityName));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private City fetchCityByName(String cityName) {
+<b class="fc">&nbsp;        String url = String.format(&quot;http://api.openweathermap.org/geo/1.0/direct?q=%s&amp;limit=1&amp;appid=%s&quot;, cityName, API_KEY);</b>
+&nbsp;
+<b class="fc">&nbsp;        City[] cities = restTemplate.getForObject(url, City[].class);</b>
+<b class="fc">&nbsp;        logger.info(&quot;Response from Open Weather API for {}: {}&quot;, cityName, cities);</b>
+&nbsp;
+<b class="pc">&nbsp;        if (cities != null &amp;&amp; cities.length &gt; 0) {</b>
+<b class="fc">&nbsp;            return cities[0];</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            throw new RuntimeException(&quot;No city location found for: &quot; + cityName);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-01-09 12:12</div>
+</div>
+</body>
+</html>
