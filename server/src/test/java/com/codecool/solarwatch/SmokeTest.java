@@ -13,7 +13,7 @@ import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
 @TestPropertySource(
-        locations = "classpath:application-integrationtest.properties")
+        locations = "classpath:application-test.properties")
 public class SmokeTest {
 
     private final AuthController authController;

@@ -28,11 +28,14 @@ services:
       dockerfile: Dockerfile
     container_name: app
     environment:
+      - SPRING_PROFILES_ACTIVE=docker
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/solar_watch
       - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
-      - codecool.app.jwtSecret=${jwtSecret}
-      - codecool.app.jwtExpirationMs=${jwtExpirationMs}
+      - codecool.app.jwtSecret=${JWT_SECRET}
+      - codecool.app.jwtExpirationMs=${JWT_EXPIRATION}
+      - SPRING_MAIL_USERNAME=${MAIL_ADDRESS}
+      - SPRING_MAIL_PASSWORD=${MAIL_PASSWORD}
     ports:
       - "8080:8080" # Add this if your app exposes a port
 

@@ -53,7 +53,7 @@ export default function Navbar() {
                             <div className="hidden sm:flex sm:items-center sm:gap-x-12">
                                 {isLoggedIn() ? (
                                     <div className="flex gap-x-5 items-center">
-                                        <h2 className="text-white">Hello {user?.username}</h2>
+                                        <h2>Hello {user?.username}</h2>
                                         <SolarWatchButton onClick={logout}>
                                             Logout
                                         </SolarWatchButton>
@@ -80,7 +80,7 @@ export default function Navbar() {
                         <div className="space-y-1 px-2 pt-2 pb-3">
                             {isLoggedIn() ? (
                                 <>
-                                    <p className="block px-3 py-2 rounded-md text-base font-medium text-white">
+                                    <p className="block px-3 py-2 rounded-md text-base font-medium">
                                         Hello {user?.username}
                                     </p>
                                     <button

@@ -23,7 +23,7 @@ import java.time.LocalDate;
 
 @WebMvcTest(SolarWatchController.class)
 @AutoConfigureMockMvc
-@TestPropertySource(locations = "classpath:application-integrationtest.properties")
+@TestPropertySource(locations = "classpath:application-test.properties")
 @WithMockUser(username = "user", roles = {"USER"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class SolarWatchRestControllerIntegrationTest {

@@ -47,11 +47,17 @@ public class CityService {
     }
 
     public void deleteCity(long id) {
-        if (cityRepository.existsById(id)) {
+        if(cityRepository.existsById(id)) {
             cityRepository.deleteById(id);
         } else {
             throw new EntityNotFoundException("City not found with id: " + id);
         }
     }
+
+
+    public void deleteAllCities() {
+        cityRepository.deleteAll();
+    }
+
 }
 

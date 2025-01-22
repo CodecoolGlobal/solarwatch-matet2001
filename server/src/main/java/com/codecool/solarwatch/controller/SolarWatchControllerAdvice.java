@@ -1,6 +1,7 @@
 package com.codecool.solarwatch.controller;
 
 import com.codecool.solarwatch.DTO.ErrorResponseDTO;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -20,5 +21,10 @@ public class SolarWatchControllerAdvice {
     public ResponseEntity<ErrorResponseDTO> handleRunTimeException(RuntimeException e) {
         ErrorResponseDTO errorResponse = new ErrorResponseDTO("Some error occurred on the server", e.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 }

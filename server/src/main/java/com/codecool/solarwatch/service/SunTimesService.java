@@ -1,5 +1,6 @@
 package com.codecool.solarwatch.service;
 
+import com.codecool.solarwatch.model.City;
 import com.codecool.solarwatch.model.SunTimes;
 import com.codecool.solarwatch.repository.SunTimesRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -45,11 +46,15 @@ public class SunTimesService {
         }).orElseThrow(() -> new EntityNotFoundException("SunTimes not found with id: " + id));
     }
     public void deleteSunTimes(long id) {
-        if (sunTimesRepository.existsById(id)) {
+        if(sunTimesRepository.existsById(id)) {
             sunTimesRepository.deleteById(id);
         } else {
             throw new EntityNotFoundException("SunTimes not found with id: " + id);
         }
+    }
+
+    public void deleteAllSunTimes() {
+        sunTimesRepository.deleteAllInBatch();
     }
 }
 

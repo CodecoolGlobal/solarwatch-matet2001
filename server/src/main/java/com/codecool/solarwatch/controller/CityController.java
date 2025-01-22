@@ -4,6 +4,8 @@ import com.codecool.solarwatch.model.City;
 import com.codecool.solarwatch.service.CityService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +23,6 @@ public class CityController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('USER')")
     public List<City> getAllCities() {
         return cityService.getAllCities();
     }
@@ -42,9 +43,11 @@ public class CityController {
 
     @PostMapping("/admin")
     @PreAuthorize("hasRole('ADMIN')")
-    public City createCity(@RequestBody City city) {
-        return cityService.createCity(city);
+    public ResponseEntity<City> createCity(@RequestBody City city) {
+        City createdCity = cityService.createCity(city);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdCity);
     }
+
 
     @PutMapping("/admin/{id}")
     @PreAuthorize("hasRole('ADMIN')")
@@ -58,5 +61,3 @@ public class CityController {
         cityService.deleteCity(id);
     }
 }
-
-
