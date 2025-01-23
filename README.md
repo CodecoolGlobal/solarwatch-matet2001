@@ -1,3 +1,17 @@
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/othneildrew/Best-README-Template">
+    <img src="pictures/logo.svg" alt="Logo" width="80" height="80">
+  </a>
+
+<h1 align="center">Solar Watch</h1>
+
+  <p align="center">
+    Your go-to tool for accurate sunrise and sunset times worldwide!
+</p>
+</div>
+
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
@@ -25,10 +39,6 @@
 </details>
 
 
-# Solar Watch
-
-<!-- ABOUT THE PROJECT -->
-## About The Project
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 Solar Watch is a website where users can log in, provide a city and a date, and instantly get information about the sunrise and sunset times for the selected location.
@@ -125,12 +135,12 @@ On the website, you can:
 
 This is the main page in dark mode: 
 
-![Website Location Screenshot](screenshots/main.png)
+![Website Location Screenshot](pictures/main.png)
 
 
 This is the login page: 
 
-![Website Event Screenshot](screenshots/login.png)
+![Website Event Screenshot](pictures/login.png)
 
 If you click to any box, you can see the details, you can edit and invite friends here too. 
 
