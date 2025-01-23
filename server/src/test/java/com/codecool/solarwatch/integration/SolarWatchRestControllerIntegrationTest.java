@@ -61,5 +61,29 @@ public class SolarWatchRestControllerIntegrationTest {
                 .andExpect(jsonPath("$.sunTimes.sunset").value("3:01:47 PM"))
                 .andExpect(jsonPath("$.sunTimes.date").value("2024-11-21"));
     }
+
+    @Test
+    void solarWatch_withoutDate_returnWithTodaysDate() throws Exception {
+        LocalDate mockDate = LocalDate.now();
+        SunTimes mockSunTimes = new SunTimes("5:10:21 AM", "3:01:47 PM", mockDate);
+        City mockCity = new City("Gödöllő", 47.601529, 19.3476981, "HU");
+
+        when(geocodingService.getCityByName(anyString())).thenReturn(mockCity);
+
+        when(sunTimeService.getCitySunTimesByDateConvertedToHungarianTimeZone(any(City.class), eq(mockDate)))
+                .thenReturn(mockSunTimes);
+
+        mockMvc.perform(get("/api/solar-watch")
+                        .param("cityName", "Gödöllő")
+                        )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.city.name").value("Gödöllő"))
+                .andExpect(jsonPath("$.city.lat").value(47.601529))
+                .andExpect(jsonPath("$.city.lon").value(19.3476981))
+                .andExpect(jsonPath("$.city.country").value("HU"))
+                .andExpect(jsonPath("$.sunTimes.sunrise").value("5:10:21 AM"))
+                .andExpect(jsonPath("$.sunTimes.sunset").value("3:01:47 PM"))
+                .andExpect(jsonPath("$.sunTimes.date").value(mockDate.toString()));
+    }
 }
 
