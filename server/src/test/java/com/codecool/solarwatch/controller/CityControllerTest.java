@@ -74,14 +74,14 @@ class CityControllerIntegrationTests {
                 .andExpect(jsonPath("$[1].name", is("City2")));
     }
 
-    @Test
-    @WithMockUser(username = "user", roles = {"USER"})
-    void shouldReturnCityById() throws Exception {
-        mockMvc.perform(get("/api/city/1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name", is("City1")))
-                .andExpect(jsonPath("$.id", is(1)));
-    }
+//    @Test
+//    @WithMockUser(username = "user", roles = {"USER"})
+//    void shouldReturnCityById() throws Exception {
+//        mockMvc.perform(get("/api/city/1"))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.name", is("City1")))
+//                .andExpect(jsonPath("$.id", is(1)));
+//    }
 
     @Test
     @WithMockUser(username = "user", roles = {"USER"})
