@@ -10,6 +10,7 @@ import com.codecool.solarwatch.service.SunTimeService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -42,6 +43,11 @@ public class SolarWatchController {
         logger.info(responseDTO.toString());
 
         return responseDTO;
+    }
+
+    @GetMapping("/api/throw-runtime")
+    public ResponseEntity<?> throwRuntime() {
+        throw new RuntimeException("This is a runtime exception");
     }
 }
 

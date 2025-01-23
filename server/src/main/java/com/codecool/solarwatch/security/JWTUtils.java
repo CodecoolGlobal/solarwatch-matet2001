@@ -35,7 +35,7 @@ public class JWTUtils {
                 .compact();
     }
 
-    private Key key() {
+    Key key() {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
 
