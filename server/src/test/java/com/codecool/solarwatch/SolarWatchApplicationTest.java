@@ -12,9 +12,4 @@ class SolarWatchApplicationTests {
     void contextLoads() {
         // Test to ensure that the application context loads successfully
     }
-
-//    @Test
-//    void mainMethodRuns() {
-//        SolarWatchApplication.main(new String[] {});
-//    }
 }

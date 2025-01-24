@@ -68,15 +68,6 @@ class SunTimesControllerIntegrationTests {
                 .andExpect(jsonPath("$[1].sunrise", is("06:10")));
     }
 
-//    @Test
-//    @WithMockUser(username = "user", roles = {"USER"})
-//    void shouldReturnSunTimesById() throws Exception {
-//        mockMvc.perform(get("/api/sun-times/1"))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.sunrise", is("06:00")))
-//                .andExpect(jsonPath("$.id", is(1)));
-//    }
-
     @Test
     @WithMockUser(username = "user", roles = {"USER"})
     void shouldReturn404ForSunTimesByIdNotFound() throws Exception {
@@ -135,13 +126,6 @@ class SunTimesControllerIntegrationTests {
                         .content(objectMapper.writeValueAsString(updatedSunTimes)))
                 .andExpect(status().isNotFound());
     }
-
-//    @Test
-//    @WithMockUser(username = "admin", roles = {"ADMIN"})
-//    void shouldDeleteSunTimes() throws Exception {
-//        mockMvc.perform(delete("/api/sun-times/admin/1"))
-//                .andExpect(status().isOk());
-//    }
 
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})

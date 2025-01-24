@@ -78,8 +78,8 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-//        emailService.sendSimpleEmail(registerDTO.email(), "Registration", "Registration was successful!");
-//        logger.info("Email was send to{}", registerDTO.email());
+        emailService.sendSimpleEmail(registerDTO.email(), "Registration", "Registration was successful!");
+        logger.info("Email was send to{}", registerDTO.email());
 
 
         return new ResponseEntity<>(new RegisterResponseDTO("User registration success"), HttpStatus.OK);

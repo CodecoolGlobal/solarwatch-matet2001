@@ -8,14 +8,16 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Data
 @NoArgsConstructor
 public class City {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private long id;
+    private UUID publicId;
     private String name;
     private double lat;
     private double lon;

@@ -6,7 +6,6 @@ import com.codecool.solarwatch.service.CityService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,8 +18,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -73,15 +70,6 @@ class CityControllerIntegrationTests {
                 .andExpect(jsonPath("$[0].name", is("City1")))
                 .andExpect(jsonPath("$[1].name", is("City2")));
     }
-
-//    @Test
-//    @WithMockUser(username = "user", roles = {"USER"})
-//    void shouldReturnCityById() throws Exception {
-//        mockMvc.perform(get("/api/city/1"))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.name", is("City1")))
-//                .andExpect(jsonPath("$.id", is(1)));
-//    }
 
     @Test
     @WithMockUser(username = "user", roles = {"USER"})
