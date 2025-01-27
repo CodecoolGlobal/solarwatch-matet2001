@@ -96,16 +96,16 @@ Here you find the steps of the installation of our project:
     cp .env.example .env
     ```
 
-   Once copied, open the `.env` file and update the values to match your credentials and environment settings. For example:
+   Once copied, you can open the .env file and update the values to match your credentials and environment settings, if desired. For example:
 
     ```plaintext
-    DB_PASSWORD=yourpassword
-    DB_USERNAME=yourusername
-    jwtSecret=======================CodeCool=Spring===========================
-    jwtExpirationMs=86400000
+    DB_PASSWORD=postgres
+    DB_USERNAME=postgres
+    JWT_SECRET=======================CodeCool=Spring===========================
+    JWT_EXPIRATION=86400000
     ```
 
-   Make sure that the credentials you provide are secure and appropriate for your environment.
+   Modifying the .env file is optional, but if you choose to do so, make sure that the credentials you provide are secure and appropriate for your environment.
 
 
 3. Run the project with Docker
