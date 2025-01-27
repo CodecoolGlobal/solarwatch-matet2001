@@ -4,8 +4,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-import com.codecool.solarwatch.SolarWatchApplication;
 import com.codecool.solarwatch.model.Role;
+import com.codecool.solarwatch.model.SolarUser;
 import com.codecool.solarwatch.repository.RoleRepository;
 import com.codecool.solarwatch.repository.UserRepository;
 import org.junit.jupiter.api.BeforeAll;
@@ -13,25 +13,17 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.test.context.TestPropertySource;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
-
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(
-        webEnvironment = SpringBootTest.WebEnvironment.MOCK,
-        classes = SolarWatchApplication.class)
+@SpringBootTest
 @AutoConfigureMockMvc
-@TestPropertySource(
-        locations = "classpath:application-test.properties")
+@TestPropertySource(locations = "classpath:application-test.properties")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class AuthRestControllerIntegrationTest {
 
     @Autowired
@@ -76,5 +68,18 @@ public class AuthRestControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.jwtToken").exists())
                 .andExpect(jsonPath("$.message").value("User login successfully"));
+    }
+
+    @Test
+    void register_fails_whenUsernameIsTaken() throws Exception {
+        // Arrange: Save a user with the same username
+        userRepository.save(new SolarUser("testuser", "password123"));
+
+        // Act & Assert: Try to register with the same username and expect a BAD_REQUEST response
+        mockMvc.perform(post("/api/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(credentials))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Username is taken!"));
     }
 }

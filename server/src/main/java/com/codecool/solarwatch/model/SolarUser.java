@@ -20,4 +20,9 @@ public class SolarUser {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
+
+    public SolarUser(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 }

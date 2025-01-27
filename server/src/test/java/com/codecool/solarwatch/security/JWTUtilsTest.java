@@ -65,4 +65,12 @@ class JwtUtilsTests {
         boolean isValid = jwtUtils.validateJwtToken(expiredToken);
         assertFalse(isValid);
     }
+
+    @Test
+    void shouldReturnFalseForEmptyJwtToken() {
+        String emptyToken = "";
+
+        boolean isValid = jwtUtils.validateJwtToken(emptyToken);
+        assertFalse(isValid);
+    }
 }

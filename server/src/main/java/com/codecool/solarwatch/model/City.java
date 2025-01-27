@@ -15,9 +15,8 @@ import java.util.UUID;
 @NoArgsConstructor
 public class City {
     @Id
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private UUID publicId;
     private String name;
     private double lat;
     private double lon;
