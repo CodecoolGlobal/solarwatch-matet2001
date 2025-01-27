@@ -93,7 +93,7 @@ Here you find the steps of the installation of our project:
    To set up your environment variables, simply copy and rename the `.env.example` file to `.env` in the root directory. You can do this using the following terminal command:
 
     ```bash
-    cp .env.example .env
+    copy .env.example .env
     ```
 
    Once copied, you can open the .env file and update the values to match your credentials and environment settings, if desired. For example:
