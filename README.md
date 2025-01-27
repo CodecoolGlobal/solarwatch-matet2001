@@ -85,7 +85,7 @@ Here you find the steps of the installation of our project:
 1. Clone the repository
     ```
     git clone https://github.com/CodecoolGlobal/solarwatch-frontend-javascript-matet2001.git
-    cd solarwatch-frontend-javascript-matet2001
+    cd solarwatch-matet2001
     ```
 
 2. Configure Environment Variables
