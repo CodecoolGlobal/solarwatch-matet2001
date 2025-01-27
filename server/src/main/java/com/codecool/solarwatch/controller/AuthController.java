@@ -8,7 +8,6 @@ import com.codecool.solarwatch.model.SolarUser;
 import com.codecool.solarwatch.repository.RoleRepository;
 import com.codecool.solarwatch.repository.UserRepository;
 import com.codecool.solarwatch.security.JWTUtils;
-import com.codecool.solarwatch.service.EmailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +36,6 @@ public class AuthController {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final JWTUtils jwtUtils;
-    private final EmailService emailService;
 
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
@@ -45,14 +43,13 @@ public class AuthController {
     public AuthController(AuthenticationManager authenticationManager,
                           UserRepository userRepository,
                           RoleRepository roleRepository,
-                          PasswordEncoder passwordEncoder, JWTUtils jwtUtils, EmailService emailService) {
+                          PasswordEncoder passwordEncoder, JWTUtils jwtUtils) {
 
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtils = jwtUtils;
-        this.emailService = emailService;
     }
 
     @PostMapping("register")
@@ -77,10 +74,6 @@ public class AuthController {
                                 registerDTO.password()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        emailService.sendSimpleEmail(registerDTO.email(), "Registration", "Registration was successful!");
-        logger.info("Email was send to{}", registerDTO.email());
-
 
         return new ResponseEntity<>(new RegisterResponseDTO("User registration success"), HttpStatus.OK);
     }
