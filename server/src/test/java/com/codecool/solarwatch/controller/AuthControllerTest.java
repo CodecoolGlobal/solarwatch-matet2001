@@ -1,4 +1,4 @@
-package com.codecool.solarwatch.integration;
+package com.codecool.solarwatch.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @TestPropertySource(locations = "classpath:application-test.properties")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class AuthRestControllerIntegrationTest {
+public class AuthControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

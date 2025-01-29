@@ -1,10 +1,9 @@
-package com.codecool.solarwatch.integration;
+package com.codecool.solarwatch.controller;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.codecool.solarwatch.controller.SolarWatchController;
 import com.codecool.solarwatch.model.City;
 import com.codecool.solarwatch.model.SunTimes;
 import com.codecool.solarwatch.service.GeocodingService;
@@ -26,7 +25,7 @@ import java.time.LocalDate;
 @TestPropertySource(locations = "classpath:application-test.properties")
 @WithMockUser(username = "user", roles = {"USER"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-public class SolarWatchRestControllerIntegrationTest {
+public class SolarWatchControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
